@@ -1,68 +1,66 @@
-export default function FiltersBar({ filters, setFilters }) {
-  const onChange = (key) => (e) => setFilters((f) => ({ ...f, [key]: e.target.value }));
+import { useState } from 'react';
+
+export default function FiltersBar({ onChange }) {
+  const [rank, setRank] = useState('');
+  const [vessel, setVessel] = useState('');
+  const [contract, setContract] = useState('');
+
+  function handleChange(next) {
+    onChange?.(next);
+  }
 
   return (
-    <aside className="lg:sticky lg:top-20">
-      <div className="rounded-lg border border-slate-200 bg-white shadow-sm p-4">
-        <h3 className="text-sm font-semibold text-slate-900 mb-3">Фильтры</h3>
+    <aside className="hidden lg:block w-64 shrink-0">
+      <div className="sticky top-16 rounded-md border border-neutral-200 bg-white p-4">
+        <h3 className="mb-3 text-sm font-semibold text-neutral-800">Filters</h3>
 
-        <div className="grid gap-4">
-          <div className="grid gap-1">
-            <label className="text-xs text-slate-500">Должность</label>
-            <input
-              type="text"
-              value={filters.rank}
-              onChange={onChange('rank')}
-              placeholder="Напр. Chief Officer"
-              className="rounded-md border border-slate-300 px-3 py-2"
-            />
-          </div>
-
-          <div className="grid gap-1">
-            <label className="text-xs text-slate-500">Тип судна</label>
-            <select value={filters.vesselType} onChange={onChange('vesselType')} className="rounded-md border border-slate-300 px-3 py-2">
-              <option value="">Любой</option>
-              <option value="Container">Container</option>
-              <option value="Bulk Carrier">Bulk Carrier</option>
-              <option value="Tanker">Tanker</option>
-              <option value="Offshore">Offshore</option>
-              <option value="Cruise">Cruise</option>
-              <option value="Ro-Ro">Ro-Ro</option>
-              <option value="LNG">LNG</option>
-              <option value="General Cargo">General Cargo</option>
+        <div className="space-y-4 text-sm">
+          <div>
+            <label className="block text-xs text-neutral-500 mb-1">Rank</label>
+            <select
+              value={rank}
+              onChange={(e) => { setRank(e.target.value); handleChange({ rank: e.target.value, vessel, contract }); }}
+              className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2"
+            >
+              <option value="">Any</option>
+              <option>Master</option>
+              <option>Chief Officer</option>
+              <option>2nd Officer</option>
+              <option>3rd Officer</option>
+              <option>Chief Engineer</option>
+              <option>2nd Engineer</option>
             </select>
           </div>
 
-          <div className="grid gap-1">
-            <label className="text-xs text-slate-500">Срок контракта</label>
-            <select value={filters.contract} onChange={onChange('contract')} className="rounded-md border border-slate-300 px-3 py-2">
-              <option value="">Любой</option>
-              <option value="2-3 months">2-3 месяца</option>
-              <option value="4-6 months">4-6 месяцев</option>
-              <option value="6 months">Более 6 месяцев</option>
+          <div>
+            <label className="block text-xs text-neutral-500 mb-1">Vessel type</label>
+            <select
+              value={vessel}
+              onChange={(e) => { setVessel(e.target.value); handleChange({ rank, vessel: e.target.value, contract }); }}
+              className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2"
+            >
+              <option value="">Any</option>
+              <option>Bulk Carrier</option>
+              <option>Container</option>
+              <option>Tanker</option>
+              <option>Offshore</option>
+              <option>Passenger</option>
             </select>
           </div>
 
-          <div className="grid gap-1">
-            <label className="text-xs text-slate-500">Локация/Ротация</label>
-            <input
-              type="text"
-              value={filters.location}
-              onChange={onChange('location')}
-              placeholder="Worldwide, EU Ports"
-              className="rounded-md border border-slate-300 px-3 py-2"
-            />
+          <div>
+            <label className="block text-xs text-neutral-500 mb-1">Contract</label>
+            <select
+              value={contract}
+              onChange={(e) => { setContract(e.target.value); handleChange({ rank, vessel, contract: e.target.value }); }}
+              className="w-full rounded-md border border-neutral-300 bg-white px-3 py-2"
+            >
+              <option value="">Any</option>
+              <option>2-3 months</option>
+              <option>4-6 months</option>
+              <option>Permanent</option>
+            </select>
           </div>
-        </div>
-
-        <div className="mt-4 flex gap-2">
-          <button
-            onClick={() => setFilters({ rank: '', vesselType: '', contract: '', location: '' })}
-            className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50"
-          >
-            Сбросить
-          </button>
-          <button className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700">Применить</button>
         </div>
       </div>
     </aside>

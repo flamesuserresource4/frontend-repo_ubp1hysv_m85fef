@@ -1,65 +1,78 @@
 import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, MapPin } from 'lucide-react';
 
-export default function SearchBar({ query, setQuery, onSubmit, stats }) {
-  const [tab, setTab] = useState('jobs');
+export default function SearchBar({ onSearch, activeTab, setActiveTab, stats }) {
+  const [query, setQuery] = useState('');
+  const [location, setLocation] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onSearch({ query, location });
+  }
 
   return (
-    <div className="bg-white border-b border-slate-200">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2 text-sm">
-            <button
-              type="button"
-              className={`rounded-md px-3 py-1.5 border ${tab === 'jobs' ? 'border-blue-600 text-blue-700 bg-blue-50' : 'border-slate-300 text-slate-700 hover:bg-slate-50'}`}
-              onClick={() => setTab('jobs')}
-            >
-              Вакансии
-            </button>
-            <button
-              type="button"
-              className={`rounded-md px-3 py-1.5 border ${tab === 'companies' ? 'border-blue-600 text-blue-700 bg-blue-50' : 'border-slate-300 text-slate-700 hover:bg-slate-50'}`}
-              onClick={() => setTab('companies')}
-            >
-              Компании
-            </button>
-          </div>
-
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              onSubmit();
-            }}
-            className="flex-1"
+    <section className="border-b border-neutral-200 bg-gradient-to-b from-blue-50/60 to-transparent">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6">
+        <div className="flex items-center gap-2 mb-4">
+          <button
+            onClick={() => setActiveTab('vacancies')}
+            className={`inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium border ${
+              activeTab === 'vacancies'
+                ? 'bg-blue-600 text-white border-blue-600'
+                : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50'
+            }`}
           >
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={tab === 'jobs' ? 'Найти вакансию: должность, компания, тип судна' : 'Найти компанию: название, страна'}
-                className="w-full rounded-md border border-slate-300 pl-9 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          </form>
-
-          <div className="grid grid-cols-3 gap-3 text-center text-xs text-slate-600">
-            <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
-              <div className="font-semibold text-slate-900">{stats.vacancies}</div>
-              <div>вакансий</div>
-            </div>
-            <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
-              <div className="font-semibold text-slate-900">{stats.companies}</div>
-              <div>компаний</div>
-            </div>
-            <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2">
-              <div className="font-semibold text-slate-900">{stats.seafarers}</div>
-              <div>моряков</div>
-            </div>
-          </div>
+            Vacancies
+          </button>
+          <button
+            onClick={() => setActiveTab('companies')}
+            className={`inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium border ${
+              activeTab === 'companies'
+                ? 'bg-blue-600 text-white border-blue-600'
+                : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50'
+            }`}
+          >
+            Companies
+          </button>
         </div>
+
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_auto] gap-3">
+          <label className="flex items-center gap-2 rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm">
+            <Search className="h-4 w-4 text-neutral-500" />
+            <input
+              className="w-full bg-transparent outline-none placeholder:text-neutral-400"
+              placeholder={activeTab === 'vacancies' ? 'Search positions, vessel type, company...' : 'Search companies...'}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </label>
+
+          <label className="flex items-center gap-2 rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm">
+            <MapPin className="h-4 w-4 text-neutral-500" />
+            <input
+              className="w-full bg-transparent outline-none placeholder:text-neutral-400"
+              placeholder="Any location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+          </label>
+
+          <button type="submit" className="h-10 rounded-md bg-blue-600 px-4 text-sm font-medium text-white hover:bg-blue-700">
+            Search
+          </button>
+        </form>
+
+        {stats && (
+          <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {stats.map((s) => (
+              <div key={s.label} className="rounded-md border border-neutral-200 bg-white px-3 py-2">
+                <div className="text-xs text-neutral-500">{s.label}</div>
+                <div className="text-sm font-semibold text-neutral-800">{s.value}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 }
