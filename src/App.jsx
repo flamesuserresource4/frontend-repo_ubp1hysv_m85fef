@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import Navbar from './components/Navbar.jsx';
-import HeroSearch from './components/HeroSearch.jsx';
+import SearchBar from './components/SearchBar.jsx';
 import FiltersBar from './components/FiltersBar.jsx';
 import JobList from './components/JobList.jsx';
 
@@ -18,8 +18,6 @@ function App() {
         location: 'Worldwide rotation',
         contract: '4-6 months',
         salary: '€8,500 - €9,500',
-        description:
-          'Требуется старший помощник капитана с опытом на контейнеровозах 3000+ TEU. Обязателен опыт работы с ECDIS, хорошее знание английского.',
       },
       {
         id: 2,
@@ -29,8 +27,6 @@ function App() {
         location: 'EU Ports',
         contract: '4-6 months',
         salary: 'USD 7,000 - 8,000',
-        description:
-          'Ищем 2-го механика на нефтяной танкер. Опыт работы с MAN B&W, знание систем очистки балласта, сертификаты актуальны.',
       },
       {
         id: 3,
@@ -40,8 +36,6 @@ function App() {
         location: 'Asia',
         contract: '6 months',
         salary: 'USD 1,800 - 2,100',
-        description:
-          'Нужен матрос 1 класса. Обязанности: швартовка, вахта, обслуживание палубы. Опыт на балкерах приветствуется.',
       },
       {
         id: 4,
@@ -51,8 +45,6 @@ function App() {
         location: 'Worldwide',
         contract: '2-3 months',
         salary: '€6,500 - €7,200',
-        description:
-          'Электромеханик с опытом на газовозах LNG. Работа с системами автоматики, PLC, навигационным оборудованием.',
       },
       {
         id: 5,
@@ -62,8 +54,6 @@ function App() {
         location: 'Mediterranean',
         contract: '6 months',
         salary: 'USD 2,500 - 3,000',
-        description:
-          'Повар в круизную компанию. Опыт работы на судах, знание санитарных норм, умение работать в команде.',
       },
     ],
     []
@@ -84,25 +74,35 @@ function App() {
   }, [jobs, query, filters]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-slate-50">
       <Navbar />
-      <HeroSearch query={query} setQuery={setQuery} onSubmit={() => {}} />
-      <FiltersBar filters={filters} setFilters={setFilters} />
+      <SearchBar
+        query={query}
+        setQuery={setQuery}
+        onSubmit={() => {}}
+        stats={{ vacancies: 1243, companies: 312, seafarers: '50k+' }}
+      />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-slate-900">Найдено вакансий: {filteredJobs.length}</h2>
-          <div className="text-sm text-slate-600">Обновлено: сегодня</div>
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+        <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-12 lg:col-span-3">
+            <FiltersBar filters={filters} setFilters={setFilters} />
+          </div>
+          <div className="col-span-12 lg:col-span-9">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-slate-900">Вакансии</h2>
+              <div className="text-sm text-slate-600">Найдено: {filteredJobs.length}</div>
+            </div>
+            <JobList jobs={filteredJobs} />
+          </div>
         </div>
-      </div>
+      </main>
 
-      <JobList jobs={filteredJobs} />
-
-      <footer id="about" className="mt-12 border-t border-slate-200">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 text-sm text-slate-600">
-          <p className="font-medium text-slate-800">SeaJobs — платформа поиска работы для моряков</p>
-          <p className="mt-1">Надежные вакансии от проверенных компаний. Помогаем офицерам и рядовому составу находить лучшие контракты.</p>
-          <p id="contact" className="mt-4">Связаться: hello@seajobs.example</p>
+      <footer id="about" className="mt-6 border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 text-sm text-slate-600">
+          <p className="font-medium text-slate-800">Maritime Jobs — поиск работы для моряков</p>
+          <p className="mt-1">Вакансии от проверенных компаний. Офицерский и рядовой состав, офшор, круизы и др.</p>
+          <p id="contact" className="mt-3">Связаться: hello@maritime-jobs.example</p>
         </div>
       </footer>
     </div>
