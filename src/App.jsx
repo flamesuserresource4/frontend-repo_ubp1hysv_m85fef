@@ -83,15 +83,21 @@ function App() {
         stats={{ vacancies: 1243, companies: 312, seafarers: '50k+' }}
       />
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-12 gap-6">
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5">
+        <div className="grid grid-cols-12 gap-5">
           <div className="col-span-12 lg:col-span-3">
             <FiltersBar filters={filters} setFilters={setFilters} />
           </div>
           <div className="col-span-12 lg:col-span-9">
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">Вакансии</h2>
-              <div className="text-sm text-slate-600">Найдено: {filteredJobs.length}</div>
+              <h2 className="text-base font-semibold text-slate-900">Вакансии</h2>
+              <div className="flex items-center gap-3 text-sm text-slate-600">
+                <div>Найдено: <span className="font-medium text-slate-800">{filteredJobs.length}</span></div>
+                <select className="rounded-md border border-slate-300 px-2 py-1 text-sm bg-white">
+                  <option>Сначала новые</option>
+                  <option>По зарплате</option>
+                </select>
+              </div>
             </div>
             <JobList jobs={filteredJobs} />
           </div>
@@ -99,7 +105,7 @@ function App() {
       </main>
 
       <footer id="about" className="mt-6 border-t border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 text-sm text-slate-600">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-7 text-sm text-slate-600">
           <p className="font-medium text-slate-800">Maritime Jobs — поиск работы для моряков</p>
           <p className="mt-1">Вакансии от проверенных компаний. Офицерский и рядовой состав, офшор, круизы и др.</p>
           <p id="contact" className="mt-3">Связаться: hello@maritime-jobs.example</p>

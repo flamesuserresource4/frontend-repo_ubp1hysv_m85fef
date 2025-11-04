@@ -3,7 +3,7 @@ export default function FiltersBar({ filters, setFilters }) {
 
   return (
     <aside className="lg:sticky lg:top-20">
-      <div className="rounded-xl border border-slate-200 bg-white shadow-sm p-4">
+      <div className="rounded-lg border border-slate-200 bg-white shadow-sm p-4">
         <h3 className="text-sm font-semibold text-slate-900 mb-3">Фильтры</h3>
 
         <div className="grid gap-4">
@@ -14,13 +14,13 @@ export default function FiltersBar({ filters, setFilters }) {
               value={filters.rank}
               onChange={onChange('rank')}
               placeholder="Напр. Chief Officer"
-              className="rounded-lg border border-slate-300 px-3 py-2"
+              className="rounded-md border border-slate-300 px-3 py-2"
             />
           </div>
 
           <div className="grid gap-1">
             <label className="text-xs text-slate-500">Тип судна</label>
-            <select value={filters.vesselType} onChange={onChange('vesselType')} className="rounded-lg border border-slate-300 px-3 py-2">
+            <select value={filters.vesselType} onChange={onChange('vesselType')} className="rounded-md border border-slate-300 px-3 py-2">
               <option value="">Любой</option>
               <option value="Container">Container</option>
               <option value="Bulk Carrier">Bulk Carrier</option>
@@ -35,7 +35,7 @@ export default function FiltersBar({ filters, setFilters }) {
 
           <div className="grid gap-1">
             <label className="text-xs text-slate-500">Срок контракта</label>
-            <select value={filters.contract} onChange={onChange('contract')} className="rounded-lg border border-slate-300 px-3 py-2">
+            <select value={filters.contract} onChange={onChange('contract')} className="rounded-md border border-slate-300 px-3 py-2">
               <option value="">Любой</option>
               <option value="2-3 months">2-3 месяца</option>
               <option value="4-6 months">4-6 месяцев</option>
@@ -50,7 +50,7 @@ export default function FiltersBar({ filters, setFilters }) {
               value={filters.location}
               onChange={onChange('location')}
               placeholder="Worldwide, EU Ports"
-              className="rounded-lg border border-slate-300 px-3 py-2"
+              className="rounded-md border border-slate-300 px-3 py-2"
             />
           </div>
         </div>
@@ -58,11 +58,11 @@ export default function FiltersBar({ filters, setFilters }) {
         <div className="mt-4 flex gap-2">
           <button
             onClick={() => setFilters({ rank: '', vesselType: '', contract: '', location: '' })}
-            className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50"
+            className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm hover:bg-slate-50"
           >
             Сбросить
           </button>
-          <button className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700">Применить</button>
+          <button className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700">Применить</button>
         </div>
       </div>
     </aside>
